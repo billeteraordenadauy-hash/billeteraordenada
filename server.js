@@ -6,7 +6,16 @@
 require("dotenv").config();
 const express = require("express");
 const { MercadoPagoConfig, Preference } = require("mercadopago");
+const nodemailer = require("nodemailer");
 
+// Configuración de Gmail
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "billeteraordenadauy@gmail.com",
+    pass: process.env.GMAIL_PASS || "yuux tobv huab cduh",
+  },
+});
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -75,11 +84,64 @@ app.get("/drive-link", (req, res) => {
 // /success.html se muestra después del pago aprobado
 // ============================================================
 // ============================================================
-// RUTA: Webhook e IPN de Mercado Pago
+// RUTA: Webhook de Mercado Pago
+// Cuando el pago es aprobado, envía el mail con el link
 // ============================================================
-app.post("/webhook", (req, res) => {
-  console.log("Webhook recibido:", req.body);
+app.post("/webhook", express.json(), async (req, res) => {
   res.sendStatus(200);
+  
+  const { type, data } = req.body;
+  
+  if (type === "payment" && data?.id) {
+    try {
+      // Obtener detalles del pago desde MP
+      const response = await fetch(
+        `https://api.mercadopago.com/v1/payments/${data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN || "TU_ACCESS_TOKEN_AQUI"}`,
+          },
+        }
+      );
+      const payment = await response.json();
+
+      // Solo enviar mail si el pago fue aprobado
+      if (payment.status === "approved") {
+        const emailComprador = payment.payer?.email;
+        const driveLink = process.env.DRIVE_LINK || "TU_LINK_DE_GOOGLE_DRIVE_AQUI";
+
+        if (emailComprador) {
+          await transporter.sendMail({
+            from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
+            to: emailComprador,
+            subject: "🎉 Tu Kit de Finanzas Personales 2026 está listo",
+            html: `
+              <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
+                <h1 style="color: #2D5016;">¡Gracias por tu compra! 🎉</h1>
+                <p>Tu Kit de Finanzas Personales 2026 está listo para descargar.</p>
+                <a href="${driveLink}" 
+                   style="display:inline-block; background:#2D5016; color:white; padding:14px 28px; border-radius:50px; text-decoration:none; font-weight:bold; margin: 16px 0;">
+                  📥 Descargar mi kit ahora
+                </a>
+                <p style="color: #666; font-size: 14px;">
+                  Si el botón no funciona, copiá este link en tu navegador:<br/>
+                  <a href="${driveLink}">${driveLink}</a>
+                </p>
+                <p style="color: #666; font-size: 14px;">
+                  ¿Tenés alguna duda? Escribinos por Instagram.<br/>
+                  ¡Mucho éxito organizando tus finanzas! 💚
+                </p>
+                <p style="color: #999; font-size: 12px;">BilleteraOrdenadaUY · Material educativo e informativo</p>
+              </div>
+            `,
+          });
+          console.log("✅ Mail enviado a:", emailComprador);
+        }
+      }
+    } catch (error) {
+      console.error("Error procesando webhook:", error);
+    }
+  }
 });
 
 app.get("/webhook", (req, res) => {
