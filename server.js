@@ -49,7 +49,6 @@ app.post("/crear-pago", async (req, res) => {
           failure: `${BASE_URL}/index.html`,
           pending: `${BASE_URL}/index.html`,
         },
-        auto_return: "approved", // Redirige automáticamente si el pago fue aprobado
         statement_descriptor: "BILLETERAORDENADAUY",
       },
     });
