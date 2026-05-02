@@ -76,16 +76,15 @@ app.get("/drive-link", (req, res) => {
 // /success.html se muestra después del pago aprobado
 // ============================================================
 // ============================================================
-// RUTA: Webhook de Mercado Pago
-// MP avisa aquí cuando un pago es aprobado
+// RUTA: Webhook e IPN de Mercado Pago
 // ============================================================
-app.post("/webhook", express.json(), async (req, res) => {
-  const { type, data } = req.body;
+app.post("/webhook", (req, res) => {
+  console.log("Webhook recibido:", req.body);
+  res.sendStatus(200);
+});
 
-  if (type === "payment") {
-    console.log("Pago recibido, ID:", data.id);
-  }
-
+app.get("/webhook", (req, res) => {
+  console.log("IPN recibido:", req.query);
   res.sendStatus(200);
 });
 // --- Iniciar servidor ---
