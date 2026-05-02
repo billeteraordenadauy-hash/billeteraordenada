@@ -55,7 +55,7 @@ app.post("/crear-pago", async (req, res) => {
     });
 
     // Devuelve el link de pago al frontend
-    res.json({ url: result.init_point });
+    res.json({ url: result.init_point, preferenceId: result.id });
   } catch (error) {
     console.error("Error creando preferencia de pago:", error);
     res.status(500).json({ error: "No se pudo crear el pago. Intentá de nuevo." });
