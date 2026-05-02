@@ -48,7 +48,6 @@ const BASE_URL = process.env.BASE_URL || "https://billeteraordenada-production.u
           failure: `${BASE_URL}/index.html`,
           pending: `${BASE_URL}/index.html`,
         },
-        auto_return: "approved",
         statement_descriptor: "BILLETERAORDENADAUY",
       },
     });
