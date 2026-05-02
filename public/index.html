@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BilleteraOrdenadaUY — Organizá tus finanzas hoy</title>
+    <meta
+      name="description"
+      content="El kit de planillas para uruguayos que quieren dejar de preguntarse a dónde se fue el sueldo. Solo USD 8."
+    />
+    <!-- Fuentes: Fraunces (display cálido) + DM Sans (cuerpo legible) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="header">
+      <div class="logo">
+        <!-- Ícono SVG simple: billetera con hoja uruguaya -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="10" fill="#2D5016"/>
+          <path d="M6 10C6 8.9 6.9 8 8 8H24C25.1 8 26 8.9 26 10V22C26 23.1 25.1 24 24 24H8C6.9 24 6 23.1 6 22V10Z" fill="#A8C572"/>
+          <path d="M6 13H26V17H22C21.4 17 21 17.4 21 18C21 18.6 21.4 19 22 19H26V13Z" fill="#2D5016"/>
+          <circle cx="22.5" cy="18" r="1" fill="#A8C572"/>
+          <path d="M10 11.5C11.5 10.5 13 11 13.5 12.5" stroke="#2D5016" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span>BilleteraOrdenada<strong>UY</strong></span>
+      </div>
+      <a href="#comprar" class="btn-header">Comprar — USD 8</a>
+    </header>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-tag">🇺🇾 Hecho para Uruguay</div>
+      <h1 class="hero-title">
+        ¿Sentís que tu sueldo<br />
+        <em>desaparece</em> solo?
+      </h1>
+      <p class="hero-sub">
+        El kit completo de planillas para organizar tus finanzas, entender en qué gastás y empezar a ahorrar — sin ser contador ni experto.
+      </p>
+      <a href="#comprar" class="btn-primary">
+        Quiero organizarme — USD 8
+        <span class="btn-arrow">→</span>
+      </a>
+      <p class="hero-note">✓ Un solo pago &nbsp;·&nbsp; ✓ Descarga inmediata &nbsp;·&nbsp; ✓ Para siempre</p>
+
+      <!-- Tarjeta decorativa tipo cuaderno -->
+      <div class="hero-card">
+        <div class="card-line"><span class="card-dot green"></span>Gastos de Mayo ✓</div>
+        <div class="card-line"><span class="card-dot green"></span>Fondo de emergencia ✓</div>
+        <div class="card-line"><span class="card-dot yellow"></span>Meta vacaciones — 68%</div>
+        <div class="card-line"><span class="card-dot gray"></span>Revisión IRPF pendiente</div>
+      </div>
+    </section>
+
+    <!-- ===================== PROBLEMA ===================== -->
+    <section class="problema">
+      <h2 class="section-title">¿Te suena alguna de estas?</h2>
+      <div class="problema-grid">
+        <div class="problema-item">
+          <span class="problema-icon">😟</span>
+          <p>Cobro y en una semana ya no sé a dónde fue la plata</p>
+        </div>
+        <div class="problema-item">
+          <span class="problema-icon">📊</span>
+          <p>Quiero ahorrar pero nunca sobra nada a fin de mes</p>
+        </div>
+        <div class="problema-item">
+          <span class="problema-icon">🧾</span>
+          <p>No entiendo mi recibo de sueldo ni cuánto pago de IRPF</p>
+        </div>
+        <div class="problema-item">
+          <span class="problema-icon">🎯</span>
+          <p>Tengo metas pero no sé cómo organizarme para cumplirlas</p>
+        </div>
+      </div>
+      <p class="problema-cierre">
+        Si te identificaste con alguna — este kit es para vos.
+      </p>
+    </section>
+
+    <!-- ===================== QUÉ INCLUYE ===================== -->
+    <section class="incluye" id="incluye">
+      <div class="section-label">📦 Qué incluye</div>
+      <h2 class="section-title">Todo lo que necesitás<br />en un solo kit</h2>
+
+      <div class="incluye-grid">
+
+        <div class="incluye-card featured">
+          <div class="incluye-icon">📈</div>
+          <div class="incluye-badge">Principal</div>
+          <h3>Planilla Maestra de Finanzas 2026</h3>
+          <p>Tu centro de control financiero. Incluye control de gastos diarios, seguimiento de ahorro, objetivos financieros, tracker de deudas y resumen mensual automático.</p>
+          <div class="incluye-tags">
+            <span>Gastos diarios</span>
+            <span>Ahorro</span>
+            <span>Objetivos</span>
+            <span>Deudas</span>
+          </div>
+        </div>
+
+        <div class="incluye-card">
+          <div class="incluye-icon">💻</div>
+          <h3>Control de Gastos Anual — Excel</h3>
+          <p>Visión anual completa de tus ingresos y egresos. Compatible con Microsoft Excel. Ideal para quienes trabajan desde la computadora.</p>
+          <div class="incluye-tags">
+            <span>Excel</span>
+            <span>Vista anual</span>
+          </div>
+        </div>
+
+        <div class="incluye-card">
+          <div class="incluye-icon">🌐</div>
+          <h3>Control de Gastos Anual — Google Sheets</h3>
+          <p>Idéntico al anterior pero optimizado para Google Sheets. Accedé desde cualquier dispositivo, sin instalar nada.</p>
+          <div class="incluye-tags">
+            <span>Google Sheets</span>
+            <span>Desde el celular</span>
+          </div>
+        </div>
+
+        <div class="incluye-card">
+          <div class="incluye-icon">✅</div>
+          <h3>Checklist de Salud Financiera</h3>
+          <p>Evaluá tu situación financiera actual en 5 minutos. Descubrí en qué zona estás (roja, amarilla o verde) y qué necesitás mejorar.</p>
+          <div class="incluye-tags">
+            <span>Diagnóstico</span>
+            <span>PDF imprimible</span>
+          </div>
+        </div>
+
+        <div class="incluye-card">
+          <div class="incluye-icon">📄</div>
+          <h3>Guía: Entendé tu Recibo de Sueldo</h3>
+          <p>Explicación línea por línea de tu recibo. BPS, FONASA, IRPF, FRL — sin tecnicismos. Con tablas actualizadas a 2026 para Uruguay.</p>
+          <div class="incluye-tags">
+            <span>IRPF 2026</span>
+            <span>Uruguay</span>
+          </div>
+        </div>
+
+        <div class="incluye-card">
+          <div class="incluye-icon">🗓️</div>
+          <h3>Planners Personales</h3>
+          <p>Planificación diaria, semanal y mensual. Seguimiento de hábitos, metas de año nuevo, mapa de sueños y más. Imprimibles o digitales.</p>
+          <div class="incluye-tags">
+            <span>Hábitos</span>
+            <span>Metas</span>
+            <span>Imprimible</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== PARA QUIÉN ES ===================== -->
+    <section class="para-quien">
+      <div class="section-label">🙋 ¿Para quién es?</div>
+      <h2 class="section-title">Reconocete en uno de estos perfiles</h2>
+
+      <div class="perfiles-grid">
+        <div class="perfil-card">
+          <div class="perfil-emoji">😰</div>
+          <h3>"Llego justo"</h3>
+          <p>Cobrás y la plata desaparece. No debés mucho, pero tampoco ahorrás. Si surge un imprevisto, tenés que pedir prestado.</p>
+        </div>
+        <div class="perfil-card">
+          <div class="perfil-emoji">💳</div>
+          <h3>"Endeudado silencioso"</h3>
+          <p>Pagás el mínimo de la tarjeta, tenés algún préstamo y la cuota se come una parte grande del sueldo cada mes.</p>
+        </div>
+        <div class="perfil-card">
+          <div class="perfil-emoji">🎯</div>
+          <h3>"Quiero organizarme"</h3>
+          <p>Sabés que podés hacerlo mejor. Tenés ganas de ahorrar y cumplir metas, pero te falta la herramienta y el método.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== RESEÑAS ===================== -->
+    <section class="resenas">
+      <div class="section-label">⭐ Lo que dicen</div>
+      <h2 class="section-title">Uruguayos que ya<br />ordenaron su billetera</h2>
+
+      <div class="resenas-grid">
+
+        <div class="resena-card">
+          <div class="resena-stars">★★★★★</div>
+          <p>"Llevaba años diciéndome que iba a organizarme. Con esta planilla lo hice en un fin de semana. Por fin sé exactamente en qué gasto cada peso."</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">SG</div>
+            <div>
+              <strong>Sofía G.</strong>
+              <span>Montevideo · Empleada privada</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="resena-card">
+          <div class="resena-stars">★★★★★</div>
+          <p>"La guía del recibo de sueldo sola ya vale los 8 dólares. Nunca había entendido cuánto pagaba de IRPF ni por qué. Ahora sí."</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">MR</div>
+            <div>
+              <strong>Martín R.</strong>
+              <span>Canelones · Docente</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="resena-card">
+          <div class="resena-stars">★★★★★</div>
+          <p>"Lo compré un domingo a la noche y en 20 minutos ya tenía todo cargado. En 3 meses junté el fondo de emergencia que nunca había podido armar."</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">LP</div>
+            <div>
+              <strong>Laura P.</strong>
+              <span>Salto · Freelance</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="resena-card">
+          <div class="resena-stars">★★★★★</div>
+          <p>"Muy completo y super fácil de usar. Lo recomendé a toda mi familia. Los planners de hábitos también me cambiaron la rutina."</p>
+          <div class="resena-autor">
+            <div class="resena-avatar">FA</div>
+            <div>
+              <strong>Federico A.</strong>
+              <span>Maldonado · Trabajador independiente</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== COMPRAR ===================== -->
+    <section class="comprar" id="comprar">
+      <div class="comprar-card">
+        <div class="comprar-badge">🔥 Oferta de lanzamiento</div>
+        <h2 class="comprar-titulo">Kit Completo de<br />Finanzas Personales 2026</h2>
+
+        <ul class="comprar-lista">
+          <li>✓ Planilla Maestra (gastos, ahorro, objetivos)</li>
+          <li>✓ Control Anual para Excel</li>
+          <li>✓ Control Anual para Google Sheets</li>
+          <li>✓ Checklist de Salud Financiera</li>
+          <li>✓ Guía del Recibo de Sueldo (IRPF 2026)</li>
+          <li>✓ Planners Personales imprimibles</li>
+          <li>✓ Actualizaciones incluidas</li>
+        </ul>
+
+        <div class="comprar-precio">
+          <span class="precio-antes">Valor real: USD 25</span>
+          <span class="precio-actual">USD 8</span>
+          <span class="precio-nota">Un solo pago · Para siempre</span>
+        </div>
+
+        <button class="btn-comprar" id="btn-pagar" onclick="iniciarPago()">
+          <span id="btn-texto">Comprar ahora — USD 8</span>
+          <span id="btn-loading" style="display:none">Cargando...</span>
+        </button>
+
+        <p class="comprar-seguro">
+          🔒 Pago seguro con Mercado Pago &nbsp;·&nbsp; Descarga inmediata
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="faq">
+      <h2 class="section-title">Preguntas frecuentes</h2>
+
+      <div class="faq-lista">
+        <div class="faq-item">
+          <button class="faq-pregunta" onclick="toggleFaq(this)">
+            ¿Cómo recibo los archivos después de pagar?
+            <span class="faq-flecha">↓</span>
+          </button>
+          <div class="faq-respuesta">
+            Apenas se confirma tu pago, sos redirigido automáticamente a una página con el link de descarga. Podés acceder a los archivos desde ahí de inmediato.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-pregunta" onclick="toggleFaq(this)">
+            ¿Necesito saber de finanzas para usarlo?
+            <span class="faq-flecha">↓</span>
+          </button>
+          <div class="faq-respuesta">
+            No. Las planillas están diseñadas para personas sin conocimientos previos. Todo está explicado paso a paso, con guías incluidas.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-pregunta" onclick="toggleFaq(this)">
+            ¿Funciona con mi celular?
+            <span class="faq-flecha">↓</span>
+          </button>
+          <div class="faq-respuesta">
+            Sí. La versión de Google Sheets funciona perfecto desde el celular. La versión Excel está pensada para computadora.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-pregunta" onclick="toggleFaq(this)">
+            ¿Es solo para Montevideo?
+            <span class="faq-flecha">↓</span>
+          </button>
+          <div class="faq-respuesta">
+            No, es para cualquier persona que trabaje y cobre en Uruguay. Los datos de IRPF, BPS y FONASA aplican a todo el país.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-pregunta" onclick="toggleFaq(this)">
+            ¿Puedo pagar con tarjeta?
+            <span class="faq-flecha">↓</span>
+          </button>
+          <div class="faq-respuesta">
+            Sí. A través de Mercado Pago podés pagar con tarjeta de crédito, débito, o saldo de Mercado Pago.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+      <div class="footer-logo">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="10" fill="#2D5016"/>
+          <path d="M6 10C6 8.9 6.9 8 8 8H24C25.1 8 26 8.9 26 10V22C26 23.1 25.1 24 24 24H8C6.9 24 6 23.1 6 22V10Z" fill="#A8C572"/>
+          <path d="M6 13H26V17H22C21.4 17 21 17.4 21 18C21 18.6 21.4 19 22 19H26V13Z" fill="#2D5016"/>
+          <circle cx="22.5" cy="18" r="1" fill="#A8C572"/>
+        </svg>
+        <span>BilleteraOrdenadaUY</span>
+      </div>
+      <p class="footer-copy">
+        © 2026 BilleteraOrdenadaUY · Material educativo e informativo.<br />
+        No constituye asesoramiento financiero profesional.
+      </p>
+      <p class="footer-datos">
+        Datos IRPF, BPS y FONASA actualizados a febrero 2026 · Uruguay
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

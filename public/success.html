@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¡Compra exitosa! — BilleteraOrdenadaUY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .success-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .success-icon {
+        font-size: 72px;
+        margin-bottom: 16px;
+        animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      @keyframes pop {
+        0% { transform: scale(0); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      .success-title {
+        font-family: var(--font-display);
+        font-size: 36px;
+        font-weight: 900;
+        color: var(--verde-oscuro);
+        margin-bottom: 12px;
+      }
+
+      .success-sub {
+        font-size: 17px;
+        color: var(--texto-suave);
+        max-width: 340px;
+        margin: 0 auto 36px;
+        line-height: 1.5;
+      }
+
+      .success-card {
+        background: var(--blanco);
+        border: 2px solid var(--verde-pastel);
+        border-radius: var(--radio-grande);
+        padding: 28px 24px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 8px 40px var(--sombra);
+        margin-bottom: 24px;
+      }
+
+      .success-card h3 {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--texto);
+      }
+
+      .success-card p {
+        font-size: 14px;
+        color: var(--texto-suave);
+        margin-bottom: 20px;
+      }
+
+      .btn-descarga {
+        display: block;
+        width: 100%;
+        background: var(--verde-oscuro);
+        color: var(--blanco);
+        padding: 16px;
+        border-radius: 50px;
+        font-family: var(--font-body);
+        font-size: 17px;
+        font-weight: 700;
+        text-decoration: none;
+        text-align: center;
+        box-shadow: 0 4px 20px var(--sombra);
+        transition: transform 0.2s;
+      }
+
+      .btn-descarga:hover {
+        transform: translateY(-2px);
+      }
+
+      .success-nota {
+        font-size: 13px;
+        color: var(--texto-suave);
+        max-width: 340px;
+      }
+
+      .success-pasos {
+        text-align: left;
+        background: var(--beige-oscuro);
+        border-radius: var(--radio);
+        padding: 16px;
+        margin: 16px 0;
+      }
+
+      .success-pasos p {
+        font-size: 14px;
+        color: var(--texto);
+        margin-bottom: 6px;
+      }
+
+      .success-pasos p:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="success-page">
+
+      <div class="success-icon">🎉</div>
+
+      <h1 class="success-title">¡Pago confirmado!</h1>
+      <p class="success-sub">
+        Tu kit de finanzas personales ya está listo para descargar. ¡Empezá hoy mismo!
+      </p>
+
+      <div class="success-card">
+        <h3>📦 Tu Kit BilleteraOrdenadaUY</h3>
+        <p>Hacé clic en el botón para acceder a todos los archivos en Google Drive.</p>
+
+        <div class="success-pasos">
+          <p>📁 Vas a ver una carpeta con todos los archivos</p>
+          <p>💾 Descargalos o guardá una copia en tu propio Drive</p>
+          <p>📱 Google Sheets funciona desde el celular</p>
+        </div>
+
+        <!-- 
+          IMPORTANTE: Reemplazá el href con tu link real de Google Drive
+          El link debe ser público o "cualquier persona con el link puede ver"
+        -->
+        <a
+          href="TU_LINK_DE_GOOGLE_DRIVE_AQUI"
+          class="btn-descarga"
+          target="_blank"
+          rel="noopener noreferrer"
+          id="btn-drive"
+        >
+          📥 Descargar mi kit ahora
+        </a>
+      </div>
+
+      <p class="success-nota">
+        ¿Tuviste algún problema? Escribinos a través de Instagram y te ayudamos enseguida. ¡Gracias por tu confianza! 💚
+      </p>
+
+    </div>
+
+    <script>
+      // Obtiene el link de Drive desde el servidor al cargar la página
+      // Esto permite cambiarlo sin tocar el HTML
+      fetch("/drive-link")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.url) {
+            document.getElementById("btn-drive").href = data.url;
+          }
+        })
+        .catch(() => {
+          // Si falla, el link hardcodeado en el href se mantiene como fallback
+        });
+    </script>
+  </body>
+</html>
