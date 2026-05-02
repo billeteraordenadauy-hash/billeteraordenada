@@ -75,7 +75,19 @@ app.get("/drive-link", (req, res) => {
 // RUTA: Página de éxito (ya la sirve express.static)
 // /success.html se muestra después del pago aprobado
 // ============================================================
+// ============================================================
+// RUTA: Webhook de Mercado Pago
+// MP avisa aquí cuando un pago es aprobado
+// ============================================================
+app.post("/webhook", express.json(), async (req, res) => {
+  const { type, data } = req.body;
 
+  if (type === "payment") {
+    console.log("Pago recibido, ID:", data.id);
+  }
+
+  res.sendStatus(200);
+});
 // --- Iniciar servidor ---
 app.listen(PORT, () => {
   console.log(`✅ BilleteraOrdenadaUY corriendo en http://localhost:${PORT}`);
