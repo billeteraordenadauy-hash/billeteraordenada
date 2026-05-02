@@ -44,11 +44,12 @@ app.post("/crear-pago", async (req, res) => {
           },
         ],
         // URLs a donde MP redirige después del pago
-        back_urls: {
+     back_urls: {
           success: `${BASE_URL}/success.html`,
           failure: `${BASE_URL}/index.html`,
           pending: `${BASE_URL}/index.html`,
         },
+        auto_return: "approved",
         statement_descriptor: "BILLETERAORDENADAUY",
       },
     });
