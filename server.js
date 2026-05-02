@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
-const { MercadoPagoConfig, Preference } = require("mercadopago");
+const mercadopago = require("mercadopago");
+const MercadoPagoConfig = mercadopago.MercadoPagoConfig;
+const Preference = mercadopago.Preference;
 const nodemailer = require("nodemailer");
 
 const app = express();
