@@ -28,8 +28,7 @@ app.post("/crear-pago", async (req, res) => {
   try {
     const preference = new Preference(client);
 
-    const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
-
+const BASE_URL = process.env.BASE_URL || "https://billeteraordenada-production.up.railway.app";
     const result = await preference.create({
       body: {
         items: [
