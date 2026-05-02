@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // --- Configuración de Mercado Pago ---
 const client = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN || "TU_ACCESS_TOKEN_AQUI",
+  accessToken: "APP_USR-4649243425530749-050119-b560a6d6acde9ae37734b8265669fd2d-776011483",
 });
 
 // --- Middlewares ---
