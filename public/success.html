@@ -148,14 +148,13 @@
   </p>
 </div>
 
-   <script>
-async function enviarMail() {
+   <script>async function enviarMail() {
   const nombre = document.getElementById("nombre").value.trim();
   const email = document.getElementById("email").value.trim();
   const btn = document.getElementById("btn-enviar");
 
   if (!nombre || !email) {
-    alert("Por favor completá tu nombre y email.");
+    alert("Por favor completa tu nombre y email.");
     return;
   }
 
@@ -163,23 +162,20 @@ async function enviarMail() {
   btn.innerText = "Enviando...";
 
   try {
-    const response = await fetch("/enviar-kit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, email })
-    });
+    const url = "/enviar-kit?nombre=" + encodeURIComponent(nombre) + "&email=" + encodeURIComponent(email);
+    const response = await fetch(url);
     const data = await response.json();
 
     if (data.ok) {
       document.getElementById("mensaje").style.display = "block";
-      btn.innerText = "¡Enviado!";
+      btn.innerText = "Enviado!";
     } else {
-      alert("Hubo un problema. Intentá de nuevo.");
+      alert("Hubo un problema. Intenta de nuevo.");
       btn.disabled = false;
       btn.innerText = "Enviarme el kit por email";
     }
   } catch (error) {
-    alert("Hubo un problema. Intentá de nuevo.");
+    alert("Hubo un problema. Intenta de nuevo.");
     btn.disabled = false;
     btn.innerText = "Enviarme el kit por email";
   }
