@@ -60,6 +60,7 @@ app.get("/drive-link", (req, res) => {
 
 app.post("/webhook", async (req, res) => {
   res.sendStatus(200);
+  console.log("Webhook recibido:", JSON.stringify(req.body));
   const { type, data } = req.body;
   if (type === "payment" && data && data.id) {
     try {
