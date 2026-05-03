@@ -44,7 +44,7 @@ app.post("/crear-pago", async (req, res) => {
           failure: BASE_URL + "/index.html",
           pending: BASE_URL + "/index.html",
         },
-        notification_url: "https://billeteraordenada-production.up.railway.app/webhook",
+        notification_url: "https://billeteraordenada-production.up.railway.app/mp-webhook-notify",
       },
     });
     res.json({ url: result.init_point, preferenceId: result.id });
@@ -59,7 +59,7 @@ app.get("/drive-link", (req, res) => {
   res.json({ url: link });
 });
 
-app.post("/webhook", async (req, res) => {
+app.post("/mp-webhook-notify", async (req, res) => {
   res.sendStatus(200);
   console.log("Webhook recibido:", JSON.stringify(req.body));
   const { type, data } = req.body;
@@ -93,7 +93,7 @@ app.post("/webhook", async (req, res) => {
   }
 });
 
-app.get("/webhook", (req, res) => {
+app.get("/mp-webhook-notify", (req, res) => {
   res.sendStatus(200);
 });
 
