@@ -3,7 +3,7 @@ const express = require("express");
 const mercadopago = require("mercadopago");
 const MercadoPagoConfig = mercadopago.MercadoPagoConfig;
 const Preference = mercadopago.Preference;
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,13 +12,7 @@ const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN,
 });
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "billeteraordenadauy@gmail.com",
-    pass: process.env.GMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -90,7 +84,6 @@ function buildEmailHtml(nombre, driveLink) {
   return parts.join('');
 }
 
-// GET en lugar de POST para evitar bloqueo del CDN de Railway
 app.get("/enviar-kit", async (req, res) => {
   const nombre = req.query.nombre;
   const email = req.query.email;
@@ -101,12 +94,18 @@ app.get("/enviar-kit", async (req, res) => {
   }
 
   try {
-    await transporter.sendMail({
-      from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
+    const { error } = await resend.emails.send({
+      from: "BilleteraOrdenadaUY <onboarding@resend.dev>",
       to: email,
       subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
       html: buildEmailHtml(nombre, driveLink),
     });
+
+    if (error) {
+      console.error("Error Resend:", error);
+      return res.json({ ok: false });
+    }
+
     console.log("Mail enviado a:", email);
     res.json({ ok: true });
   } catch (error) {
