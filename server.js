@@ -90,8 +90,10 @@ function buildEmailHtml(nombre, driveLink) {
   return parts.join('');
 }
 
-app.post("/enviar-kit", async (req, res) => {
-  const { nombre, email } = req.body;
+// GET en lugar de POST para evitar bloqueo del CDN de Railway
+app.get("/enviar-kit", async (req, res) => {
+  const nombre = req.query.nombre;
+  const email = req.query.email;
   const driveLink = process.env.DRIVE_LINK || "";
 
   if (!nombre || !email) {
