@@ -61,7 +61,47 @@ app.get("/drive-link", (req, res) => {
   const link = process.env.DRIVE_LINK || "";
   res.json({ url: link });
 });
+app.get("/confirmar-pago", async (req, res) => {
+  const paymentId = req.query.payment_id;
+  const status = req.query.status;
 
+  if (!paymentId || status !== "approved") {
+    return res.json({ ok: false });
+  }
+
+  try {
+    const response = await fetch(
+      "https://api.mercadopago.com/v1/payments/" + paymentId,
+      {
+        headers: {
+          Authorization: "Bearer " + process.env.MP_ACCESS_TOKEN,
+        },
+      }
+    );
+    const payment = await response.json();
+
+    if (payment.status === "approved") {
+      const emailComprador = payment.payer && payment.payer.email;
+      const driveLink = process.env.DRIVE_LINK || "";
+
+      if (emailComprador) {
+        await transporter.sendMail({
+          from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
+          to: emailComprador,
+          subject: "Tu Kit de Finanzas Personales 2026 esta listo",
+          html: '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;"><h1 style="color:#2D5016;">Gracias por tu compra!</h1><p>Tu Kit de Finanzas Personales 2026 esta listo para descargar.</p><a href="' + driveLink + '" style="display:inline-block;background:#2D5016;color:white;padding:14px 28px;border-radius:50px;text-decoration:none;font-weight:bold;margin:16px 0;">Descargar mi kit ahora</a><p style="color:#666;font-size:14px;">Si el boton no funciona, copia este link:<br/><a href="' + driveLink + '">' + driveLink + '</a></p><p style="color:#999;font-size:12px;">BilleteraOrdenadaUY</p></div>',
+        });
+        console.log("Mail enviado a:", emailComprador);
+      }
+      res.json({ ok: true, driveLink });
+    } else {
+      res.json({ ok: false });
+    }
+  } catch (error) {
+    console.error("Error confirmando pago:", error);
+    res.json({ ok: false });
+  }
+});
 app.post("/mp-webhook-notify", async (req, res) => {
   res.sendStatus(200);
   console.log("Webhook recibido:", JSON.stringify(req.body));

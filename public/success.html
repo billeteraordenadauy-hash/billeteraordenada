@@ -160,19 +160,29 @@
 
     </div>
 
-    <script>
-      // Obtiene el link de Drive desde el servidor al cargar la página
-      // Esto permite cambiarlo sin tocar el HTML
-      fetch("/drive-link")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.url) {
-            document.getElementById("btn-drive").href = data.url;
-          }
-        })
-        .catch(() => {
-          // Si falla, el link hardcodeado en el href se mantiene como fallback
-        });
+    <script>   
+      const params = new URLSearchParams(window.location.search);
+      const paymentId = params.get("payment_id");
+      const status = params.get("status");
+
+      if (paymentId && status === "approved") {
+        fetch("/confirmar-pago?payment_id=" + paymentId + "&status=" + status)
+          .then(res => res.json())
+          .then(data => {
+            if (data.driveLink) {
+              document.getElementById("btn-drive").href = data.driveLink;
+            }
+          })
+          .catch(err => console.error("Error:", err));
+      } else {
+        fetch("/drive-link")
+          .then(res => res.json())
+          .then(data => {
+            if (data.url) {
+              document.getElementById("btn-drive").href = data.url;
+            }
+          });
+      }
     </script>
   </body>
 </html>
