@@ -97,6 +97,14 @@ app.post("/mp-webhook-notify", async (req, res) => {
 });
 
 app.get("/mp-webhook-notify", (req, res) => {
+app.post("/webhook", async (req, res) => {
+  res.sendStatus(200);
+  console.log("Webhook recibido en /webhook:", JSON.stringify(req.body));
+});
+
+app.get("/webhook", (req, res) => {
+  res.sendStatus(200);
+});
   res.sendStatus(200);
 });
 
