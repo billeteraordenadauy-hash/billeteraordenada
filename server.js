@@ -39,11 +39,12 @@ app.post("/crear-pago", async (req, res) => {
             currency_id: "USD",
           },
         ],
-        back_urls: {
+     back_urls: {
           success: BASE_URL + "/success.html",
           failure: BASE_URL + "/index.html",
           pending: BASE_URL + "/index.html",
         },
+        notification_url: "https://billeteraordenada-production.up.railway.app/webhook",
       },
     });
     res.json({ url: result.init_point, preferenceId: result.id });
