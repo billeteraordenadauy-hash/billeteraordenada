@@ -129,60 +129,61 @@
         Tu kit de finanzas personales ya está listo para descargar. ¡Empezá hoy mismo!
       </p>
 
-      <div class="success-card">
-        <h3>📦 Tu Kit BilleteraOrdenadaUY</h3>
-        <p>Hacé clic en el botón para acceder a todos los archivos en Google Drive.</p>
+ <div class="success-card">
+  <h3>📦 ¡Pago confirmado!</h3>
+  <p>Ingresá tu nombre y email para recibir el kit en tu correo.</p>
 
-        <div class="success-pasos">
-          <p>📁 Vas a ver una carpeta con todos los archivos</p>
-          <p>💾 Descargalos o guardá una copia en tu propio Drive</p>
-          <p>📱 Google Sheets funciona desde el celular</p>
-        </div>
+  <input type="text" id="nombre" placeholder="Tu nombre" 
+    style="width:100%;padding:12px;margin-bottom:12px;border:1.5px solid #E8E4DC;border-radius:12px;font-size:16px;font-family:inherit;">
+  
+  <input type="email" id="email" placeholder="Tu email" 
+    style="width:100%;padding:12px;margin-bottom:20px;border:1.5px solid #E8E4DC;border-radius:12px;font-size:16px;font-family:inherit;">
+  
+  <button onclick="enviarMail()" id="btn-enviar" class="btn-descarga">
+    📧 Enviarme el kit por email
+  </button>
+  
+  <p id="mensaje" style="margin-top:12px;font-size:14px;color:#2D5016;display:none;">
+    ✅ ¡Listo! Revisá tu bandeja de entrada.
+  </p>
+</div>
 
-        <!-- 
-          IMPORTANTE: Reemplazá el href con tu link real de Google Drive
-          El link debe ser público o "cualquier persona con el link puede ver"
-        -->
-        <a
-          href="https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=drive_link"
-          class="btn-descarga"
-          target="_blank"
-          rel="noopener noreferrer"
-          id="btn-drive"
-        >
-          📥 Descargar mi kit ahora
-        </a>
-      </div>
+   <script>
+async function enviarMail() {
+  const nombre = document.getElementById("nombre").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const btn = document.getElementById("btn-enviar");
 
-      <p class="success-nota">
-        ¿Tuviste algún problema? Escribinos a través de Instagram y te ayudamos enseguida. ¡Gracias por tu confianza! 💚
-      </p>
+  if (!nombre || !email) {
+    alert("Por favor completá tu nombre y email.");
+    return;
+  }
 
-    </div>
+  btn.disabled = true;
+  btn.innerText = "Enviando...";
 
-    <script>   
-      const params = new URLSearchParams(window.location.search);
-      const paymentId = params.get("payment_id");
-      const status = params.get("status");
+  try {
+    const response = await fetch("/enviar-kit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, email })
+    });
+    const data = await response.json();
 
-      if (paymentId && status === "approved") {
-        fetch("/confirmar-pago?payment_id=" + paymentId + "&status=" + status)
-          .then(res => res.json())
-          .then(data => {
-            if (data.driveLink) {
-              document.getElementById("btn-drive").href = data.driveLink;
-            }
-          })
-          .catch(err => console.error("Error:", err));
-      } else {
-        fetch("/drive-link")
-          .then(res => res.json())
-          .then(data => {
-            if (data.url) {
-              document.getElementById("btn-drive").href = data.url;
-            }
-          });
-      }
-    </script>
+    if (data.ok) {
+      document.getElementById("mensaje").style.display = "block";
+      btn.innerText = "¡Enviado!";
+    } else {
+      alert("Hubo un problema. Intentá de nuevo.");
+      btn.disabled = false;
+      btn.innerText = "Enviarme el kit por email";
+    }
+  } catch (error) {
+    alert("Hubo un problema. Intentá de nuevo.");
+    btn.disabled = false;
+    btn.innerText = "Enviarme el kit por email";
+  }
+}
+</script>
   </body>
 </html>
