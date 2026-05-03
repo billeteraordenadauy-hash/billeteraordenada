@@ -54,7 +54,7 @@ app.post("/crear-pago", async (req, res) => {
     res.json({ url: result.init_point, preferenceId: result.id });
   } catch (error) {
     console.error("Error creando preferencia de pago:", error);
-    res.status(500).json({ error: "No se pudo crear el pago. Intentá de nuevo." });
+    res.status(500).json({ error: "No se pudo crear el pago. Intenta de nuevo." });
   }
 });
 
@@ -76,10 +76,33 @@ app.post("/enviar-kit", async (req, res) => {
       from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
       to: email,
       subject: "Tu Kit de Finanzas Personales 2026 esta listo",
-      html: '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;"><h1 style="color:#2D5016;">Hola ' + nombre + '!</h1><p>Gracias por tu compra. Tu Kit de Finanzas Personales 2026 esta listo para descargar.</p><a href="' + driveLink + '" style="display:inline-block;background:#2D5016;color:white;padding:14px 28px;border-radius:50px;text-decoration:none;font-weight:bold;margin:16px 0;">Descargar mi kit ahora</a><p style="color:#666;font-size:14px;">Si el boton no funciona, copia este link:<br/><a href="' + driveLink + '">' + driveLink + '</a></p><p style="color:#999;font-size:12px;">BilleteraOrdenadaUY</p></div>',
+      html: '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;"><h1 style="color:#2D5016;">Hola ' + nombre + '!</h1><p>Gracias por tu compra. Tu Kit de Finanzas Personales 2026 esta listo para descargar.</p><a href="' + driveLink + '" style="display:inline-block;background:#2D5016;color:white;padding:14px 28px;border-radius:50px;text-decoration:none;font-weight:bold;margin:16px 0;">Descargar mi kit ahora</a><p style="color:#666;font-size:14px;">Si el boton no funciona, copia este link: ' + driveLink + '</p><p style="color:#999;font-size:12px;">BilleteraOrdenadaUY</p></div>',
     });
     console.log("Mail enviado a:", email);
     res.json({ ok: true });
   } catch (error) {
     console.error("Error enviando mail:", error);
-    res.json({ ok
+    res.json({ ok: false });
+  }
+});
+
+app.post("/mp-webhook-notify", (req, res) => {
+  res.sendStatus(200);
+  console.log("Webhook recibido:", JSON.stringify(req.body));
+});
+
+app.get("/mp-webhook-notify", (req, res) => {
+  res.sendStatus(200);
+});
+
+app.post("/webhook", (req, res) => {
+  res.sendStatus(200);
+});
+
+app.get("/webhook", (req, res) => {
+  res.sendStatus(200);
+});
+
+app.listen(PORT, function() {
+  console.log("BilleteraOrdenadaUY corriendo en puerto " + PORT);
+});
