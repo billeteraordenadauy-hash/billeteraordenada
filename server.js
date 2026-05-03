@@ -22,7 +22,10 @@ const transporter = nodemailer.createTransport({
 
 app.use(express.json());
 app.use(express.static("public"));
-
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate");
+  next();
+});
 app.post("/crear-pago", async (req, res) => {
   try {
     const BASE_URL = process.env.BASE_URL || "https://billeteraordenada-production.up.railway.app";
