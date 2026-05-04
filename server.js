@@ -95,7 +95,7 @@ app.get("/enviar-kit", async (req, res) => {
 
   try {
     const { error } = await resend.emails.send({
-      from: "BilleteraOrdenadaUY <onboarding@resend.dev>",
+      from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
       to: email,
       subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
       html: buildEmailHtml(nombre, driveLink),
