@@ -90,7 +90,7 @@ function buildEmailHtml(nombre, driveLink) {
   return parts.join('');
 }
 
-app.get("/enviar-kit", async (req, res) => {
+app.get("/enviar-kit", (req, res) => {
   const nombre = req.query.nombre;
   const email = req.query.email;
   const driveLink = process.env.DRIVE_LINK || "";
@@ -99,19 +99,20 @@ app.get("/enviar-kit", async (req, res) => {
     return res.json({ ok: false });
   }
 
-  try {
-    await transporter.sendMail({
-      from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
-      to: email,
-      subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
-      html: buildEmailHtml(nombre, driveLink),
-    });
+  // Responder INMEDIATAMENTE antes de enviar el mail
+  res.json({ ok: true });
+
+  // Enviar mail en segundo plano sin bloquear
+  transporter.sendMail({
+    from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
+    to: email,
+    subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
+    html: buildEmailHtml(nombre, driveLink),
+  }).then(function() {
     console.log("Mail enviado a:", email);
-    res.json({ ok: true });
-  } catch (error) {
+  }).catch(function(error) {
     console.error("Error enviando mail:", error.message);
-    res.json({ ok: false });
-  }
+  });
 });
 
 app.post("/mp-webhook-notify", (req, res) => {
