@@ -3,7 +3,7 @@ const express = require("express");
 const mercadopago = require("mercadopago");
 const MercadoPagoConfig = mercadopago.MercadoPagoConfig;
 const Preference = mercadopago.Preference;
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,13 +12,7 @@ const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN,
 });
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "billeteraordenadauy@gmail.com",
-    pass: process.env.GMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -90,7 +84,7 @@ function buildEmailHtml(nombre, driveLink) {
   return parts.join('');
 }
 
-app.get("/enviar-kit", (req, res) => {
+app.get("/enviar-kit", async (req, res) => {
   const nombre = req.query.nombre;
   const email = req.query.email;
   const driveLink = process.env.DRIVE_LINK || "";
@@ -99,20 +93,25 @@ app.get("/enviar-kit", (req, res) => {
     return res.json({ ok: false });
   }
 
-  // Responder INMEDIATAMENTE antes de enviar el mail
-  res.json({ ok: true });
+  try {
+    const { error } = await resend.emails.send({
+      from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
+      to: email,
+      subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
+      html: buildEmailHtml(nombre, driveLink),
+    });
 
-  // Enviar mail en segundo plano sin bloquear
-  transporter.sendMail({
-    from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
-    to: email,
-    subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
-    html: buildEmailHtml(nombre, driveLink),
-  }).then(function() {
+    if (error) {
+      console.error("Error Resend:", error);
+      return res.json({ ok: false });
+    }
+
     console.log("Mail enviado a:", email);
-  }).catch(function(error) {
+    res.json({ ok: true });
+  } catch (error) {
     console.error("Error enviando mail:", error.message);
-  });
+    res.json({ ok: false });
+  }
 });
 
 app.post("/mp-webhook-notify", (req, res) => {
