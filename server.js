@@ -3,7 +3,7 @@ const express = require("express");
 const mercadopago = require("mercadopago");
 const MercadoPagoConfig = mercadopago.MercadoPagoConfig;
 const Preference = mercadopago.Preference;
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,7 +12,13 @@ const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN,
 });
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "billeteraordenadauy@gmail.com",
+    pass: process.env.GMAIL_PASS,
+  },
+});
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -94,29 +100,22 @@ app.get("/enviar-kit", async (req, res) => {
   }
 
   try {
-    const { error } = await resend.emails.send({
-      from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
+    await transporter.sendMail({
+      from: '"BilleteraOrdenadaUY" <billeteraordenadauy@gmail.com>',
       to: email,
       subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
       html: buildEmailHtml(nombre, driveLink),
     });
-
-    if (error) {
-      console.error("Error Resend:", error);
-      return res.json({ ok: false });
-    }
-
     console.log("Mail enviado a:", email);
     res.json({ ok: true });
   } catch (error) {
-    console.error("Error enviando mail:", error);
+    console.error("Error enviando mail:", error.message);
     res.json({ ok: false });
   }
 });
 
 app.post("/mp-webhook-notify", (req, res) => {
   res.sendStatus(200);
-  console.log("Webhook recibido:", JSON.stringify(req.body));
 });
 
 app.get("/mp-webhook-notify", (req, res) => {

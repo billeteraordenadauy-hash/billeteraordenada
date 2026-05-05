@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <title>Billetera Ordenada - Logo 3</title>
+
+  <!-- Hexagon background -->
+  <polygon points="540,82 922,304 922,776 540,998 158,776 158,304" fill="#EAF3DE"/>
+  <polygon points="540,82 922,304 922,776 540,998 158,776 158,304" fill="none" stroke="#97C459" stroke-width="5"/>
+  <!-- Inner hex -->
+  <polygon points="540,142 874,332 874,748 540,938 206,748 206,332" fill="none" stroke="#C0DD97" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Big B letterform -->
+  <rect x="362" y="346" width="28" height="318" rx="14" fill="#27500A"/>
+  <path d="M390 346 Q524 346 524 426 Q524 506 390 506" fill="none" stroke="#27500A" stroke-width="28" stroke-linecap="round"/>
+  <path d="M390 506 Q540 506 540 594 Q540 664 390 664" fill="none" stroke="#3B6D11" stroke-width="28" stroke-linecap="round"/>
+
+  <!-- O letterform -->
+  <circle cx="618" cy="505" r="146" fill="none" stroke="#EF9F27" stroke-width="35"/>
+  <circle cx="618" cy="505" r="95" fill="#EAF3DE"/>
+
+  <!-- Dollar inside O -->
+  <text x="618" y="528" text-anchor="middle" font-family="Georgia, serif" font-size="76" font-weight="700" fill="#BA7517">$</text>
+
+  <!-- Leaf sprigs around O top -->
+  <ellipse cx="618" cy="332" rx="22" ry="13" fill="#97C459"/>
+  <ellipse cx="618" cy="314" rx="13" ry="8" fill="#C0DD97"/>
+
+  <!-- Leaf sprigs right -->
+  <ellipse cx="746" cy="410" rx="22" ry="13" fill="#97C459" transform="rotate(58 746 410)"/>
+  <ellipse cx="762" cy="396" rx="13" ry="8" fill="#C0DD97" transform="rotate(58 762 396)"/>
+
+  <!-- Leaf sprigs lower right -->
+  <ellipse cx="746" cy="600" rx="22" ry="13" fill="#97C459" transform="rotate(-58 746 600)"/>
+  <ellipse cx="762" cy="614" rx="13" ry="8" fill="#C0DD97" transform="rotate(-58 762 614)"/>
+
+  <!-- Brand name -->
+  <text x="540" y="776" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="44" font-weight="700" letter-spacing="6" fill="#27500A">BILLETERA</text>
+  <text x="540" y="830" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="400" letter-spacing="14" fill="#639922">ORDENADA</text>
+
+  <!-- Golden underline -->
+  <rect x="452" y="848" width="176" height="5" rx="2.5" fill="#EF9F27" opacity="0.8"/>
+</svg>

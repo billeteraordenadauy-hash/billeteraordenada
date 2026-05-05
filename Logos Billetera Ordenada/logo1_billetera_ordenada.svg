@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <title>Billetera Ordenada - Logo 1</title>
+
+  <!-- Background circle -->
+  <circle cx="540" cy="540" r="480" fill="#F1EFE8"/>
+  <circle cx="540" cy="540" r="462" fill="none" stroke="#D3D1C7" stroke-width="2"/>
+
+  <!-- Wallet body -->
+  <rect x="314" y="406" width="452" height="302" rx="28" fill="#3B6D11"/>
+
+  <!-- Wallet flap -->
+  <rect x="314" y="406" width="452" height="82" rx="28" fill="#639922"/>
+  <rect x="314" y="452" width="452" height="36" fill="#639922"/>
+
+  <!-- Card slot lines -->
+  <rect x="352" y="432" width="188" height="13" rx="6" fill="#EAF3DE" opacity="0.5"/>
+  <rect x="352" y="452" width="126" height="10" rx="5" fill="#EAF3DE" opacity="0.3"/>
+
+  <!-- Coin pocket -->
+  <rect x="634" y="468" width="110" height="172" rx="22" fill="#27500A"/>
+
+  <!-- Coin -->
+  <circle cx="689" cy="554" r="44" fill="#EF9F27"/>
+  <circle cx="689" cy="554" r="35" fill="#BA7517"/>
+  <text x="689" y="568" text-anchor="middle" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#FAEEDA">$</text>
+
+  <!-- Card peek -->
+  <rect x="352" y="524" width="234" height="142" rx="16" fill="#97C459" opacity="0.35"/>
+  <rect x="352" y="524" width="234" height="44" rx="16" fill="#97C459" opacity="0.5"/>
+  <rect x="352" y="550" width="234" height="18" fill="#97C459" opacity="0.5"/>
+
+  <!-- Order lines -->
+  <rect x="376" y="594" width="128" height="11" rx="5.5" fill="#EAF3DE" opacity="0.7"/>
+  <rect x="376" y="616" width="96" height="11" rx="5.5" fill="#EAF3DE" opacity="0.5"/>
+  <rect x="376" y="638" width="112" height="11" rx="5.5" fill="#EAF3DE" opacity="0.6"/>
+
+  <!-- Brand name -->
+  <text x="540" y="798" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="2" fill="#27500A">BILLETERA</text>
+  <text x="540" y="858" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="42" font-weight="400" letter-spacing="10" fill="#3B6D11">ORDENADA</text>
+
+  <!-- Leaf accents -->
+  <ellipse cx="308" cy="828" rx="16" ry="9" fill="#97C459" transform="rotate(-30 308 828)"/>
+  <ellipse cx="772" cy="828" rx="16" ry="9" fill="#97C459" transform="rotate(30 772 828)"/>
+
+  <!-- Top dot accent -->
+  <circle cx="540" cy="218" r="10" fill="#639922"/>
+  <circle cx="502" cy="230" r="6" fill="#97C459" opacity="0.6"/>
+  <circle cx="578" cy="230" r="6" fill="#97C459" opacity="0.6"/>
+</svg>
