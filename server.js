@@ -12,7 +12,7 @@ const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN,
 });
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "placeholder");
 
 app.use(express.json());
 app.use(express.static("public"));
