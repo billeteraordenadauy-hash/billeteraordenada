@@ -53,7 +53,7 @@ app.post("/crear-pago", async (req, res) => {
 });
 
 app.get("/drive-link", (req, res) => {
-  const link = process.env.DRIVE_LINK || "";
+  const link = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=drive_link";
   res.json({ url: link });
 });
 
@@ -87,7 +87,7 @@ function buildEmailHtml(nombre, driveLink) {
 app.get("/enviar-kit", async (req, res) => {
   const nombre = req.query.nombre;
   const email = req.query.email;
-  const driveLink = process.env.DRIVE_LINK || "";
+  const driveLink = process.env.DRIVE_LINK || "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=drive_link";
 
   if (!nombre || !email) {
     return res.json({ ok: false });
