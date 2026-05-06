@@ -88,6 +88,7 @@ app.get("/enviar-kit", async (req, res) => {
   const nombre = req.query.nombre;
   const email = req.query.email;
   const driveLink = process.env.DRIVE_LINK || "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=drive_link";
+console.log("DRIVE_LINK value:", driveLink);
 
   if (!nombre || !email) {
     return res.json({ ok: false });
