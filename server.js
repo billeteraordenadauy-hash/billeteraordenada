@@ -59,7 +59,7 @@ app.post("/crear-pago", async (req, res) => {
             title: "Kit de Finanzas Personales 2026 - BilleteraOrdenadaUY",
             description: "Planillas para organizar tus finanzas personales en Uruguay.",
             quantity: 1,
-            unit_price: 320,
+            unit_price: 380,
             currency_id: "UYU",
           },
         ],
