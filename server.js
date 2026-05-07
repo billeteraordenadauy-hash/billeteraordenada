@@ -3,6 +3,7 @@ const express = require("express");
 const mercadopago = require("mercadopago");
 const MercadoPagoConfig = mercadopago.MercadoPagoConfig;
 const Preference = mercadopago.Preference;
+const Payment = mercadopago.Payment;
 const { Resend } = require("resend");
 
 const app = express();
@@ -14,8 +15,28 @@ const client = new MercadoPagoConfig({
 
 const resend = new Resend(process.env.RESEND_API_KEY || "placeholder");
 
-// Almacen temporal de datos de compradores
+// Base de datos en memoria con expiracion de 10 minutos
 const compradores = {};
+
+function guardarComprador(preferenceId, nombre, email) {
+  compradores[preferenceId] = { nombre, email, timestamp: Date.now() };
+  // Eliminar automaticamente despues de 10 minutos
+  setTimeout(function() {
+    delete compradores[preferenceId];
+    console.log("Comprador expirado:", preferenceId);
+  }, 10 * 60 * 1000);
+}
+
+function obtenerComprador(preferenceId) {
+  const comprador = compradores[preferenceId];
+  if (!comprador) return null;
+  // Verificar que no hayan pasado mas de 10 minutos
+  if (Date.now() - comprador.timestamp > 10 * 60 * 1000) {
+    delete compradores[preferenceId];
+    return null;
+  }
+  return comprador;
+}
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -58,9 +79,8 @@ app.post("/crear-pago", async (req, res) => {
       },
     });
 
-    // Guardar datos del comprador con el preference ID
     if (nombre && email) {
-      compradores[result.id] = { nombre: nombre, email: email };
+      guardarComprador(result.id, nombre, email);
       console.log("Comprador guardado:", result.id, nombre, email);
     }
 
@@ -103,38 +123,53 @@ function buildEmailHtml(nombre, driveLink) {
   return parts.join('');
 }
 
-// Ruta para enviar mail desde success.html (backup manual)
-app.get("/enviar-kit", async (req, res) => {
-  const nombre = req.query.nombre;
-  const email = req.query.email;
+async function enviarMailKit(nombre, email) {
   const driveLink = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=sharing";
+  const { error } = await resend.emails.send({
+    from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
+    to: email,
+    subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
+    html: buildEmailHtml(nombre, driveLink),
+  });
+  if (error) throw new Error(error.message);
+  console.log("Mail enviado a:", email);
+}
 
-  if (!nombre || !email) {
-    return res.json({ ok: false });
-  }
-
+// Webhook de Mercado Pago - envia mail automaticamente
+app.post("/mp-webhook-notify", async (req, res) => {
+  res.sendStatus(200);
   try {
-    const { error } = await resend.emails.send({
-      from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
-      to: email,
-      subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
-      html: buildEmailHtml(nombre, driveLink),
-    });
+    const body = req.body;
+    console.log("Webhook recibido:", JSON.stringify(body));
 
-    if (error) {
-      console.error("Error Resend:", error);
-      return res.json({ ok: false });
+    if (body.type === "payment" && body.data && body.data.id) {
+      const paymentId = body.data.id;
+      const payment = new Payment(client);
+      const paymentData = await payment.get({ id: paymentId });
+
+      console.log("Pago status:", paymentData.status, "preference:", paymentData.preference_id);
+
+      if (paymentData.status === "approved" && paymentData.preference_id) {
+        const comprador = obtenerComprador(paymentData.preference_id);
+        if (comprador) {
+          await enviarMailKit(comprador.nombre, comprador.email);
+          delete compradores[paymentData.preference_id];
+          console.log("Mail enviado via webhook a:", comprador.email);
+        } else {
+          console.log("Comprador no encontrado para preference:", paymentData.preference_id);
+        }
+      }
     }
-
-    console.log("Mail enviado a:", email);
-    res.json({ ok: true });
-  } catch (error) {
-    console.error("Error enviando mail:", error.message);
-    res.json({ ok: false });
+  } catch (err) {
+    console.error("Error en webhook:", err.message);
   }
 });
 
-// Ruta para confirmar pago y enviar mail automaticamente
+app.get("/mp-webhook-notify", (req, res) => {
+  res.sendStatus(200);
+});
+
+// Ruta para confirmar pago desde success.html (respaldo)
 app.get("/confirmar-pago", async (req, res) => {
   const preferenceId = req.query.preference_id;
   const status = req.query.status;
@@ -142,32 +177,35 @@ app.get("/confirmar-pago", async (req, res) => {
 
   res.json({ ok: true, driveLink: driveLink });
 
-  if (status === "approved" && preferenceId && compradores[preferenceId]) {
-    const { nombre, email } = compradores[preferenceId];
-    try {
-      const { error } = await resend.emails.send({
-        from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
-        to: email,
-        subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
-        html: buildEmailHtml(nombre, driveLink),
-      });
-      if (!error) {
-        console.log("Mail automatico enviado a:", email);
+  if (status === "approved" && preferenceId) {
+    const comprador = obtenerComprador(preferenceId);
+    if (comprador) {
+      try {
+        await enviarMailKit(comprador.nombre, comprador.email);
         delete compradores[preferenceId];
+      } catch (err) {
+        console.error("Error enviando mail desde confirmar-pago:", err.message);
       }
-    } catch (err) {
-      console.error("Error enviando mail automatico:", err.message);
     }
   }
 });
 
-app.post("/mp-webhook-notify", (req, res) => {
-  res.sendStatus(200);
-  console.log("Webhook recibido:", JSON.stringify(req.body));
-});
+// Ruta para enviar mail manual desde success.html
+app.get("/enviar-kit", async (req, res) => {
+  const nombre = req.query.nombre;
+  const email = req.query.email;
 
-app.get("/mp-webhook-notify", (req, res) => {
-  res.sendStatus(200);
+  if (!nombre || !email) {
+    return res.json({ ok: false });
+  }
+
+  try {
+    await enviarMailKit(nombre, email);
+    res.json({ ok: true });
+  } catch (error) {
+    console.error("Error enviando mail:", error.message);
+    res.json({ ok: false });
+  }
 });
 
 app.post("/webhook", (req, res) => {
