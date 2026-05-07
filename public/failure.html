@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pago rechazado — BilleteraOrdenadaUY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .failure-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      .failure-icon {
+        font-size: 72px;
+        margin-bottom: 16px;
+      }
+      .failure-title {
+        font-family: var(--font-display);
+        font-size: 36px;
+        font-weight: 900;
+        color: #c0392b;
+        margin-bottom: 12px;
+      }
+      .failure-sub {
+        font-size: 17px;
+        color: var(--texto-suave);
+        max-width: 340px;
+        margin: 0 auto 32px;
+        line-height: 1.5;
+      }
+      .btn-reintentar {
+        display: inline-block;
+        background: var(--verde-oscuro);
+        color: var(--blanco);
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-size: 17px;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 4px 20px var(--sombra);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="failure-page">
+      <div class="failure-icon">😕</div>
+      <h1 class="failure-title">El pago fue rechazado</h1>
+      <p class="failure-sub">
+        No se pudo procesar tu pago. Puede ser por fondos insuficientes, datos incorrectos o un problema con tu tarjeta.
+      </p>
+      <a href="/" class="btn-reintentar">
+        Volver a intentarlo
+      </a>
+    </div>
+  </body>
+</html>

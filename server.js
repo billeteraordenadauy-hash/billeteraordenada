@@ -39,7 +39,7 @@ app.post("/crear-pago", async (req, res) => {
         ],
       back_urls: {
   success: BASE_URL + "/success.html",
-  failure: BASE_URL + "/success.html",
+  failure: BASE_URL + "/failure.html",
   pending: BASE_URL + "/success.html",
 },
 payment_methods: {
