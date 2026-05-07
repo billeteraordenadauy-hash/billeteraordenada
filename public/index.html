@@ -280,7 +280,17 @@
     <button onclick="confirmarYPagar()" id="btn-confirmar" class="btn-comprar" style="margin-bottom:12px;">
       Continuar al pago →
     </button>
-    <button onclick="cerrarModal()" style="background:none;border:none;color:#6B6560;font-size:14px;cursor:pointer;">Cancelar</button>
+   <button onclick="cerrarModal()" style="background:none;border:none;color:#6B6560;font-size:14px;cursor:pointer;">Cancelar</button>
+    </div>
+
+    <!-- Paso 2: Contador -->
+    <div id="modal-contador" style="display:none;">
+      <h3 style="font-family:'Fraunces',serif;color:#2D5016;margin-bottom:8px;font-size:22px;">¡Tu reserva está activa! ⏳</h3>
+      <p style="color:#6B6560;font-size:14px;margin-bottom:20px;">Completá el pago antes de que expire tu sesión.</p>
+      <div style="font-size:48px;font-weight:900;color:#2D5016;margin:16px 0;" id="timer-display">10:00</div>
+      <p style="color:#6B6560;font-size:13px;">Serás redirigido a Mercado Pago automáticamente...</p>
+    </div>
+
   </div>
 </div>
 
