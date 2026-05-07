@@ -42,6 +42,13 @@ app.post("/crear-pago", async (req, res) => {
           failure: BASE_URL + "/index.html",
           pending: BASE_URL + "/index.html",
         },
+payment_methods: {
+  excluded_payment_types: [
+    { id: "ticket" },
+    { id: "bank_transfer" },
+    { id: "atm" }
+  ]
+},
         notification_url: "https://billeteraordenada-production.up.railway.app/mp-webhook-notify",
       },
     });
