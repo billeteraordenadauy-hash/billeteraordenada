@@ -1,50 +1,147 @@
-<script>
-// Al cargar la página, intentar enviar mail automáticamente
-window.addEventListener("DOMContentLoaded", async function() {
-  const params = new URLSearchParams(window.location.search);
-  const preferenceId = params.get("preference_id");
-  const status = params.get("status");
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¡Compra exitosa! — BilleteraOrdenadaUY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .success-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      .success-icon { font-size: 72px; margin-bottom: 16px; }
+      .success-title {
+        font-family: var(--font-display);
+        font-size: 36px;
+        font-weight: 900;
+        color: var(--verde-oscuro);
+        margin-bottom: 12px;
+      }
+      .success-sub {
+        font-size: 17px;
+        color: var(--texto-suave);
+        max-width: 340px;
+        margin: 0 auto 36px;
+        line-height: 1.5;
+      }
+      .success-card {
+        background: var(--blanco);
+        border: 2px solid var(--verde-pastel);
+        border-radius: var(--radio-grande);
+        padding: 28px 24px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 8px 40px var(--sombra);
+        margin-bottom: 24px;
+      }
+      .success-card h3 {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--texto);
+      }
+      .success-card p {
+        font-size: 14px;
+        color: var(--texto-suave);
+        margin-bottom: 20px;
+      }
+      .btn-descarga {
+        display: block;
+        width: 100%;
+        background: var(--verde-oscuro);
+        color: var(--blanco);
+        padding: 16px;
+        border-radius: 50px;
+        font-family: var(--font-body);
+        font-size: 17px;
+        font-weight: 700;
+        text-decoration: none;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 20px var(--sombra);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="success-page">
+      <div class="success-icon">🎉</div>
+      <h1 class="success-title">¡Pago confirmado!</h1>
+      <p class="success-sub">Tu kit de finanzas personales ya está listo. ¡Revisá tu email!</p>
 
-  if (preferenceId && status === "approved") {
-    try {
-      await fetch("/confirmar-pago?preference_id=" + preferenceId + "&status=" + status);
-      document.getElementById("mensaje-auto").style.display = "block";
-    } catch(e) {
-      console.log("Error confirmando pago:", e);
+      <div class="success-card">
+        <h3>📧 ¿No te llegó el mail?</h3>
+        <p>Ingresá tu nombre y email y te lo enviamos ahora.</p>
+        <input type="text" id="nombre" placeholder="Tu nombre"
+          style="width:100%;padding:12px;margin-bottom:12px;border:1.5px solid #E8E4DC;border-radius:12px;font-size:16px;font-family:inherit;box-sizing:border-box;">
+        <input type="email" id="email" placeholder="Tu email"
+          style="width:100%;padding:12px;margin-bottom:20px;border:1.5px solid #E8E4DC;border-radius:12px;font-size:16px;font-family:inherit;box-sizing:border-box;">
+        <button onclick="enviarMail()" id="btn-enviar" class="btn-descarga">
+          📧 Enviarme el kit por email
+        </button>
+        <p id="mensaje" style="margin-top:12px;font-size:14px;color:#2D5016;display:none;">
+          ✅ ¡Listo! Revisá tu bandeja de entrada.
+        </p>
+      </div>
+
+      <p id="mensaje-auto" style="font-size:14px;color:#2D5016;display:none;">
+        ✅ ¡Tu kit fue enviado automáticamente! Revisá tu bandeja de entrada.
+      </p>
+    </div>
+
+    <script>
+    window.addEventListener("DOMContentLoaded", async function() {
+      const params = new URLSearchParams(window.location.search);
+      const preferenceId = params.get("preference_id");
+      const status = params.get("status");
+      if (preferenceId && status === "approved") {
+        try {
+          await fetch("/confirmar-pago?preference_id=" + preferenceId + "&status=" + status);
+          document.getElementById("mensaje-auto").style.display = "block";
+        } catch(e) {
+          console.log("Error confirmando pago:", e);
+        }
+      }
+    });
+
+    async function enviarMail() {
+      const nombre = document.getElementById("nombre").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const btn = document.getElementById("btn-enviar");
+      if (!nombre || !email) {
+        alert("Por favor completa tu nombre y email.");
+        return;
+      }
+      btn.disabled = true;
+      btn.innerText = "Enviando...";
+      try {
+        const url = "/enviar-kit?nombre=" + encodeURIComponent(nombre) + "&email=" + encodeURIComponent(email);
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.ok) {
+          document.getElementById("mensaje").style.display = "block";
+          btn.innerText = "Enviado!";
+        } else {
+          alert("Hubo un problema. Intenta de nuevo.");
+          btn.disabled = false;
+          btn.innerText = "Enviarme el kit por email";
+        }
+      } catch (error) {
+        alert("Hubo un problema. Intenta de nuevo.");
+        btn.disabled = false;
+        btn.innerText = "Enviarme el kit por email";
+      }
     }
-  }
-});
-
-async function enviarMail() {
-  const nombre = document.getElementById("nombre").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const btn = document.getElementById("btn-enviar");
-
-  if (!nombre || !email) {
-    alert("Por favor completa tu nombre y email.");
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerText = "Enviando...";
-
-  try {
-    const url = "/enviar-kit?nombre=" + encodeURIComponent(nombre) + "&email=" + encodeURIComponent(email);
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.ok) {
-      document.getElementById("mensaje").style.display = "block";
-      btn.innerText = "Enviado!";
-    } else {
-      alert("Hubo un problema. Intenta de nuevo.");
-      btn.disabled = false;
-      btn.innerText = "Enviarme el kit por email";
-    }
-  } catch (error) {
-    alert("Hubo un problema. Intenta de nuevo.");
-    btn.disabled = false;
-    btn.innerText = "Enviarme el kit por email";
-  }
-}
-</script>
+    </script>
+  </body>
+</html>
