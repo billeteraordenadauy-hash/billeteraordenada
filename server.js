@@ -14,6 +14,9 @@ const client = new MercadoPagoConfig({
 
 const resend = new Resend(process.env.RESEND_API_KEY || "placeholder");
 
+// Almacen temporal de datos de compradores
+const compradores = {};
+
 app.use(express.json());
 app.use(express.static("public"));
 app.use((req, res, next) => {
@@ -24,6 +27,8 @@ app.use((req, res, next) => {
 app.post("/crear-pago", async (req, res) => {
   try {
     const BASE_URL = process.env.BASE_URL || "https://billeteraordenada-production.up.railway.app";
+    const nombre = req.body.nombre;
+    const email = req.body.email;
     const preference = new Preference(client);
     const result = await preference.create({
       body: {
@@ -37,21 +42,28 @@ app.post("/crear-pago", async (req, res) => {
             currency_id: "USD",
           },
         ],
-      back_urls: {
-  success: BASE_URL + "/success.html",
-  failure: BASE_URL + "/failure.html",
-  pending: BASE_URL + "/failure.html",
-},
-payment_methods: {
-  excluded_payment_types: [
-    { id: "ticket" },
-    { id: "bank_transfer" },
-    { id: "atm" }
-  ]
-},
+        back_urls: {
+          success: BASE_URL + "/success.html",
+          failure: BASE_URL + "/failure.html",
+          pending: BASE_URL + "/failure.html",
+        },
+        payment_methods: {
+          excluded_payment_types: [
+            { id: "ticket" },
+            { id: "bank_transfer" },
+            { id: "atm" }
+          ]
+        },
         notification_url: "https://billeteraordenada-production.up.railway.app/mp-webhook-notify",
       },
     });
+
+    // Guardar datos del comprador con el preference ID
+    if (nombre && email) {
+      compradores[result.id] = { nombre: nombre, email: email };
+      console.log("Comprador guardado:", result.id, nombre, email);
+    }
+
     res.json({ url: result.init_point, preferenceId: result.id });
   } catch (error) {
     console.error("Error creando preferencia de pago:", error);
@@ -60,7 +72,7 @@ payment_methods: {
 });
 
 app.get("/drive-link", (req, res) => {
-  const link = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=drive_link";
+  const link = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=sharing";
   res.json({ url: link });
 });
 
@@ -91,11 +103,11 @@ function buildEmailHtml(nombre, driveLink) {
   return parts.join('');
 }
 
+// Ruta para enviar mail desde success.html (backup manual)
 app.get("/enviar-kit", async (req, res) => {
   const nombre = req.query.nombre;
   const email = req.query.email;
   const driveLink = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=sharing";
-console.log("DRIVE_LINK value:", driveLink);
 
   if (!nombre || !email) {
     return res.json({ ok: false });
@@ -122,8 +134,36 @@ console.log("DRIVE_LINK value:", driveLink);
   }
 });
 
+// Ruta para confirmar pago y enviar mail automaticamente
+app.get("/confirmar-pago", async (req, res) => {
+  const preferenceId = req.query.preference_id;
+  const status = req.query.status;
+  const driveLink = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=sharing";
+
+  res.json({ ok: true, driveLink: driveLink });
+
+  if (status === "approved" && preferenceId && compradores[preferenceId]) {
+    const { nombre, email } = compradores[preferenceId];
+    try {
+      const { error } = await resend.emails.send({
+        from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
+        to: email,
+        subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
+        html: buildEmailHtml(nombre, driveLink),
+      });
+      if (!error) {
+        console.log("Mail automatico enviado a:", email);
+        delete compradores[preferenceId];
+      }
+    } catch (err) {
+      console.error("Error enviando mail automatico:", err.message);
+    }
+  }
+});
+
 app.post("/mp-webhook-notify", (req, res) => {
   res.sendStatus(200);
+  console.log("Webhook recibido:", JSON.stringify(req.body));
 });
 
 app.get("/mp-webhook-notify", (req, res) => {

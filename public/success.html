@@ -1,154 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>¡Compra exitosa! — BilleteraOrdenadaUY</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      .success-page {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 20px;
-        text-align: center;
-      }
+<script>
+// Al cargar la página, intentar enviar mail automáticamente
+window.addEventListener("DOMContentLoaded", async function() {
+  const params = new URLSearchParams(window.location.search);
+  const preferenceId = params.get("preference_id");
+  const status = params.get("status");
 
-      .success-icon {
-        font-size: 72px;
-        margin-bottom: 16px;
-        animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
+  if (preferenceId && status === "approved") {
+    try {
+      await fetch("/confirmar-pago?preference_id=" + preferenceId + "&status=" + status);
+      document.getElementById("mensaje-auto").style.display = "block";
+    } catch(e) {
+      console.log("Error confirmando pago:", e);
+    }
+  }
+});
 
-      @keyframes pop {
-        0% { transform: scale(0); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
-      }
-
-      .success-title {
-        font-family: var(--font-display);
-        font-size: 36px;
-        font-weight: 900;
-        color: var(--verde-oscuro);
-        margin-bottom: 12px;
-      }
-
-      .success-sub {
-        font-size: 17px;
-        color: var(--texto-suave);
-        max-width: 340px;
-        margin: 0 auto 36px;
-        line-height: 1.5;
-      }
-
-      .success-card {
-        background: var(--blanco);
-        border: 2px solid var(--verde-pastel);
-        border-radius: var(--radio-grande);
-        padding: 28px 24px;
-        max-width: 400px;
-        width: 100%;
-        box-shadow: 0 8px 40px var(--sombra);
-        margin-bottom: 24px;
-      }
-
-      .success-card h3 {
-        font-family: var(--font-display);
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: 8px;
-        color: var(--texto);
-      }
-
-      .success-card p {
-        font-size: 14px;
-        color: var(--texto-suave);
-        margin-bottom: 20px;
-      }
-
-      .btn-descarga {
-        display: block;
-        width: 100%;
-        background: var(--verde-oscuro);
-        color: var(--blanco);
-        padding: 16px;
-        border-radius: 50px;
-        font-family: var(--font-body);
-        font-size: 17px;
-        font-weight: 700;
-        text-decoration: none;
-        text-align: center;
-        box-shadow: 0 4px 20px var(--sombra);
-        transition: transform 0.2s;
-      }
-
-      .btn-descarga:hover {
-        transform: translateY(-2px);
-      }
-
-      .success-nota {
-        font-size: 13px;
-        color: var(--texto-suave);
-        max-width: 340px;
-      }
-
-      .success-pasos {
-        text-align: left;
-        background: var(--beige-oscuro);
-        border-radius: var(--radio);
-        padding: 16px;
-        margin: 16px 0;
-      }
-
-      .success-pasos p {
-        font-size: 14px;
-        color: var(--texto);
-        margin-bottom: 6px;
-      }
-
-      .success-pasos p:last-child {
-        margin-bottom: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="success-page">
-
-      <div class="success-icon">🎉</div>
-
-      <h1 class="success-title">¡Pago confirmado!</h1>
-      <p class="success-sub">
-        Tu kit de finanzas personales ya está listo para descargar. ¡Empezá hoy mismo!
-      </p>
-
- <div class="success-card">
-  <h3>📦 ¡Pago confirmado!</h3>
-  <p>Ingresá tu nombre y email para recibir el kit en tu correo.</p>
-
-  <input type="text" id="nombre" placeholder="Tu nombre" 
-    style="width:100%;padding:12px;margin-bottom:12px;border:1.5px solid #E8E4DC;border-radius:12px;font-size:16px;font-family:inherit;">
-  
-  <input type="email" id="email" placeholder="Tu email" 
-    style="width:100%;padding:12px;margin-bottom:20px;border:1.5px solid #E8E4DC;border-radius:12px;font-size:16px;font-family:inherit;">
-  
-  <button onclick="enviarMail()" id="btn-enviar" class="btn-descarga">
-    📧 Enviarme el kit por email
-  </button>
-  
-  <p id="mensaje" style="margin-top:12px;font-size:14px;color:#2D5016;display:none;">
-    ✅ ¡Listo! Revisá tu bandeja de entrada.
-  </p>
-</div>
-
-   <script>async function enviarMail() {
+async function enviarMail() {
   const nombre = document.getElementById("nombre").value.trim();
   const email = document.getElementById("email").value.trim();
   const btn = document.getElementById("btn-enviar");
@@ -181,5 +48,3 @@
   }
 }
 </script>
-  </body>
-</html>
