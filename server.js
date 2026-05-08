@@ -126,7 +126,7 @@ function buildEmailHtml(nombre, driveLink) {
 async function enviarMailKit(nombre, email) {
   const driveLink = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=sharing";
   const { error } = await resend.emails.send({
-    from: "BilleteraOrdenadaUY <hola@billeteraordenada.com>",
+    from: "BilleteraOrdenadaUY <kit@billeteraordenada.com>",
     to: email,
     subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
     html: buildEmailHtml(nombre, driveLink),
