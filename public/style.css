@@ -737,4 +737,117 @@ section {
   .header { padding: 16px 40px; }
   section { padding: 72px 40px; }
   .problema, .para-quien { margin: 0 24px; }
+} 
+/* ===== MOCKUP PREVIEW ===== */
+.mockup-preview {
+  padding: 2rem 1rem;
+  max-width: 740px;
+  margin: 0 auto 3rem;
+}
+
+.mockup-inner {
+  background: linear-gradient(160deg, #2D5016 0%, #1a3009 100%);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.mockup-label {
+  color: #A8C572;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+
+.mockup-titulo {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 1.5rem;
+}
+
+.mockup-frame {
+  background: #1a3009;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.mockup-barra {
+  background: #2a2a2a;
+  border-radius: 8px 8px 0 0;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mockup-dot-r { width:10px; height:10px; border-radius:50%; background:#ff5f57; }
+.mockup-dot-y { width:10px; height:10px; border-radius:50%; background:#febc2e; }
+.mockup-dot-g { width:10px; height:10px; border-radius:50%; background:#28c840; }
+
+.mockup-barra span {
+  color: #888;
+  font-size: 11px;
+  margin-left: 8px;
+}
+
+.mockup-contenido {
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  padding: 12px;
+  text-align: left;
+}
+
+.mockup-grid-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.mockup-grid-mid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.mockup-grid-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+}
+
+.mockup-card-dark {
+  background: #2D5016;
+  border-radius: 6px;
+  padding: 8px;
+  color: #fff;
+}
+
+.mockup-card-light {
+  background: #f5f0e8;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.mockup-card-gray {
+  background: #f9f9f9;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.mockup-nota {
+  color: rgba(168,197,114,0.8);
+  font-size: 12px;
+  margin: 1rem 0 0;
+}
+
+@media (max-width: 480px) {
+  .mockup-grid-top { grid-template-columns: 1fr 1fr; }
+  .mockup-grid-mid { grid-template-columns: 1fr; }
+  .mockup-grid-bottom { grid-template-columns: 1fr; }
+  .mockup-barra span { display: none; }
 }
