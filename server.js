@@ -99,36 +99,42 @@ app.get("/drive-link", (req, res) => {
 function buildEmailHtml(nombre, driveLink) {
   var parts = [];
   parts.push('<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#FAFAF7;border-radius:16px;">');
-  parts.push('<h1 style="color:#2D5016;">Hola ' + nombre + '!</h1>');
-  parts.push('<p>Bienvenido/a a la familia BilleteraOrdenadaUY! Tu kit ya esta listo y te va a cambiar la forma en que manejas tu plata.</p>');
-  parts.push('<h2 style="color:#2D5016;">Que incluye tu kit?</h2>');
-  parts.push('<p><strong>Planilla Maestra de Finanzas 2026</strong> - Tu centro de control. Registra gastos diarios, segui tus ahorros y objetivos en un solo lugar.</p>');
-  parts.push('<p><strong>Control de Gastos Anual - Excel</strong> - Vision anual completa. Ideal para la computadora.</p>');
-  parts.push('<p><strong>Control de Gastos Anual - Google Sheets</strong> - Lo mismo pero desde el celular, sin instalar nada.</p>');
-  parts.push('<p><strong>Checklist de Salud Financiera</strong> - Descubri en que zona estas: roja, amarilla o verde.</p>');
-  parts.push('<p><strong>Guia del Recibo de Sueldo</strong> - Entende que te descuentan: BPS, FONASA, IRPF y mas.</p>');
-  parts.push('<p><strong>Planners Personales</strong> - Para organizarte dia a dia y semana a semana.</p>');
-  parts.push('<h2 style="color:#2D5016;">Como empezar?</h2>');
-  parts.push('<ol>');
-  parts.push('<li>Hace clic en el boton o ingresa en el link</li>');
-  parts.push('<li>Abri la carpeta y elegi el archivo que mas se adapta a vos</li>');
-  parts.push('<li>Realiza una copia para editarlo desde tu Excel o Google Sheets</li>');
-  parts.push('<li>Empieza a ordenar tu billetera hoy mismo!</li>');
-  parts.push('</ol>');
-  parts.push('<a href="' + driveLink + '" style="display:inline-block;background:#2D5016;color:white;padding:14px 28px;border-radius:50px;text-decoration:none;font-weight:bold;margin:16px 0;">Acceder a mi kit ahora</a>');
-  parts.push('<p style="color:#666;font-size:14px;">Si el boton no funciona, copia este link: ' + driveLink + '</p>');
-  parts.push('<p>Seguinos en Instagram <strong>@billeteraordenadauy</strong> para mas tips. Y si tenes dudas, responde este mail y te ayudamos.</p>');
-  parts.push('<p style="color:#999;font-size:12px;">BilleteraOrdenadaUY - Material educativo e informativo - Uruguay 2026</p>');
+  parts.push('<h1 style="color:#2D5016;">Hola ' + nombre + '! 👋</h1>');
+  parts.push('<p>Tu Kit de Finanzas Personales 2026 ya está listo. Antes de abrirlo, leé esto — te ahorra 10 minutos de confusión:</p>');
+  parts.push('<div style="background:#fff8e1;border-left:4px solid #f59e0b;padding:16px;border-radius:8px;margin:16px 0;">');
+  parts.push('<p style="margin:0 0 8px;font-weight:bold;">⚠️ IMPORTANTE — leé antes de abrir</p>');
+  parts.push('<p style="margin:0 0 8px;">📥 <strong>Descargá los archivos para poder editarlos</strong></p>');
+  parts.push('<p style="margin:0 0 4px;">Los archivos se abren en modo solo lectura. Para editarlos:</p>');
+  parts.push('<ul style="margin:8px 0;padding-left:20px;">');
+  parts.push('<li><strong>Excel:</strong> descargalo → abrilo → clic en "Habilitar edición"</li>');
+  parts.push('<li><strong>Google Sheets:</strong> abrilo → Archivo → Hacer una copia</li>');
+  parts.push('</ul>');
+  parts.push('</div>');
+  parts.push('<div style="text-align:center;margin:24px 0;">');
+  parts.push('<a href="' + driveLink + '" style="display:inline-block;background:#2D5016;color:white;padding:14px 28px;border-radius:50px;text-decoration:none;font-weight:bold;font-size:16px;">👇 Acceder a mi kit ahora</a>');
+  parts.push('</div>');
+  parts.push('<p style="color:#666;font-size:13px;text-align:center;">Si el botón no funciona, copiá este link: <a href="' + driveLink + '" style="color:#2D5016;">' + driveLink + '</a></p>');
+  parts.push('<h2 style="color:#2D5016;">¿Qué viene en el kit?</h2>');
+  parts.push('<p>📊 <strong>Planilla Maestra</strong> — dashboard, gastos, ahorro y objetivos</p>');
+  parts.push('<p>📊 <strong>Control Anual para Excel</strong> — visión completa del año</p>');
+  parts.push('<p>🌐 <strong>Control Anual para Google Sheets</strong> — desde el celular, sin instalar nada</p>');
+  parts.push('<p>✅ <strong>Checklist de Salud Financiera</strong> — descubrí si estás en zona roja, amarilla o verde</p>');
+  parts.push('<p>📄 <strong>Guía del Recibo de Sueldo</strong> — entendé qué te descuentan: BPS, FONASA, IRPF y más</p>');
+  parts.push('<p>🗓️ <strong>Plan financiero personal</strong> — para organizarte día a día y semana a semana</p>');
+  parts.push('<p>🗓️ <strong> Actualizaciones mensaules y planillas extras!</strong> — para organizarte día a día y semana a semana</p>');
+  parts.push('<hr style="border:none;border-top:1px solid #eee;margin:24px 0;">');
+  parts.push('<p>Seguinos en Instagram <strong>@billeteraordenadauy</strong> para tips semanales de finanzas personales. 🇺🇾</p>');
+  parts.push('<p>¿Dudas? Respondé este mail y te contestamos en menos de 24 horas.</p>');
+  parts.push('<p style="color:#999;font-size:12px;">BilleteraOrdenadaUY · Material educativo e informativo · Uruguay 2026</p>');
   parts.push('</div>');
   return parts.join('');
 }
-
 async function enviarMailKit(nombre, email) {
   const driveLink = "https://drive.google.com/drive/folders/1wg65nq_RGKonHBRVTHoVpYvmKMNZReKV?usp=sharing";
   const { error } = await resend.emails.send({
     from: "BilleteraOrdenadaUY <kit@billeteraordenada.com>",
     to: email,
-    subject: "Tu Kit de Finanzas Personales 2026 esta listo!",
+    subject: "🎉 Tu kit está listo — leé esto antes de abrirlo",
     html: buildEmailHtml(nombre, driveLink),
   });
   if (error) throw new Error(error.message);
