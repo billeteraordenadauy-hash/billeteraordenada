@@ -33,9 +33,12 @@ async function confirmarYPagar() {
 
     const data = await response.json();
 
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
+   if (data.url) {
+      document.getElementById("modal-form").style.display = "none";
+      document.getElementById("modal-contador").innerHTML = '<div style="text-align:center;padding:16px;"><p style="font-family:\'Fraunces\',serif;color:#2D5016;font-size:18px;font-weight:700;margin-bottom:12px;">⚠️ Importante</p><p style="color:#6B6560;font-size:14px;line-height:1.6;margin-bottom:20px;">Una vez que completés el pago en Mercado Pago, hacé clic en <strong>&quot;Volver a la página&quot;</strong> para recibir tu kit por email.</p><button onclick="window.location.href=\'' + data.url + '\'" style="background:#2D5016;color:white;border:none;padding:14px 28px;border-radius:50px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;">¡Entendido, ir al pago! →</button></div>';
+      document.getElementById("modal-contador").style.display = "block";
+    }
+else {
       throw new Error("No se recibió URL de pago");
     }
   } catch (error) {
