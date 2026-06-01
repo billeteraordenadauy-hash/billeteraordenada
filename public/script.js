@@ -15,26 +15,35 @@ async function confirmarYPagar() {
   const nombre = document.getElementById("modal-nombre").value.trim();
   const email = document.getElementById("modal-email").value.trim();
   const btn = document.getElementById("btn-confirmar");
-
   if (!nombre || !email) {
     alert("Por favor completá tu nombre y email.");
     return;
   }
-
   btn.disabled = true;
   btn.innerText = "Cargando...";
-
   try {
     const response = await fetch("/crear-pago", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, email }),
     });
-
     const data = await response.json();
-
     if (data.url) {
-      window.location.href = data.url;
+      document.getElementById("modal-form").style.display = "none";
+      document.getElementById("modal-contador").style.display = "block";
+      let segundos = 600;
+      const timerDisplay = document.getElementById("timer-display");
+      const intervalo = setInterval(function() {
+        segundos--;
+        const mins = Math.floor(segundos / 60);
+        const secs = segundos % 60;
+        timerDisplay.innerText = mins + ":" + (secs < 10 ? "0" : "") + secs;
+        if (segundos <= 0) clearInterval(intervalo);
+      }, 1000);
+      document.getElementById("modal-contador").innerHTML = '<div style="text-align:center;padding:16px;"><p style="font-family:\'Fraunces\',serif;color:#2D5016;font-size:18px;font-weight:700;margin-bottom:12px;">⚠️ Importante</p><p style="color:#6B6560;font-size:14px;line-height:1.6;">Una vez que completés el pago en Mercado Pago, hacé clic en <strong>"Volver a la página"</strong> para poder recibir tu kit por email.</p></div>';
+      setTimeout(function() {
+        window.location.href = data.url;
+      }, 4000);
     } else {
       throw new Error("No se recibió URL de pago");
     }
@@ -44,7 +53,6 @@ async function confirmarYPagar() {
     btn.innerText = "Continuar al pago →";
   }
 }
-
 // --- Acordeón FAQ ---
 function toggleFaq(boton) {
   const item = boton.parentElement;
