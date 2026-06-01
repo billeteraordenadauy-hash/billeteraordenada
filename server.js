@@ -24,14 +24,14 @@ function guardarComprador(preferenceId, nombre, email) {
   setTimeout(function() {
     delete compradores[preferenceId];
     console.log("Comprador expirado:", preferenceId);
-  }, 10 * 60 * 1000);
+  }, 60 * 60 * 1000);
 }
 
 function obtenerComprador(preferenceId) {
   const comprador = compradores[preferenceId];
   if (!comprador) return null;
   // Verificar que no hayan pasado mas de 10 minutos
-  if (Date.now() - comprador.timestamp > 10 * 60 * 1000) {
+  if (Date.now() - comprador.timestamp > 60 * 60 * 1000) {
     delete compradores[preferenceId];
     return null;
   }
