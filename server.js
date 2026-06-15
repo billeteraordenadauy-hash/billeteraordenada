@@ -118,6 +118,10 @@ function buildEmailHtml(nombre, driveLink) {
   parts.push('<p>📊 <strong>Planilla Maestra</strong> — dashboard, gastos, ahorro y objetivos</p>');
   parts.push('<p>📊 <strong>Control Anual para Excel</strong> — visión completa del año</p>');
   parts.push('<p>🌐 <strong>Control Anual para Google Sheets</strong> — desde el celular, sin instalar nada</p>');
+  parts.push('<p>🗓️ <strong>Plan financiero personal</strong> — para organizarte día a día y semana a semana</p>');
+  parts.push('<p>🧑‍💻 <strong>Kit Freelancer Uruguay</strong> — finanzas, clientes y control de horas para independientes</p>');
+  parts.push('<p>🏢 <strong>Kit Negocios Uruguay</strong> — stock, ventas, turnos y pedidos para tu negocio</p>');
+  parts.push('<p>💑 <strong>Kit Finanzas en Pareja</strong> — organizá la economía del hogar juntos, sin conflictos</p>');
   parts.push('<p>✅ <strong>Checklist de Salud Financiera</strong> — descubrí si estás en zona roja, amarilla o verde</p>');
   parts.push('<p>📄 <strong>Guía del Recibo de Sueldo</strong> — entendé qué te descuentan: BPS, FONASA, IRPF y más</p>');
   parts.push('<p>🗓️ <strong>Plan financiero personal</strong> — para organizarte día a día y semana a semana</p>');
